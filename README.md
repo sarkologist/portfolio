@@ -17,4 +17,5 @@ The other one is a Java convenience library for outputting the HTML source for c
   - The use of old (pre-ECMAScript 5 and pre- Java 1.5) versions of the languages
   - The prevailing quality and level of abstraction of client code
   - The prevailing conventions within the team
+  - my level of competence :D
 - The purpose of the above disclaimer is not to indict my previous employer but solely to place the code in the context in which it was written
