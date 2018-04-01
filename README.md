@@ -1,6 +1,10 @@
 # portfolio
 
 ## Haskell
+### foci: composable bundles of traversals
+- [gist](https://gist.github.com/sarkologist/4206ece148cbbe302ae4f341fcf687a4)
+- [blog post](https://tech-blog.capital-match.com/posts/4-json-migration.html)
+
 ### streaming closest distances
 This reads csv lines and streams out the closest distances on a trajectory encountered so far to a given point.
 
