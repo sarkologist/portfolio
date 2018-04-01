@@ -5,6 +5,10 @@
 - [gist](https://gist.github.com/sarkologist/4206ece148cbbe302ae4f341fcf687a4)
 - [blog post](https://tech-blog.capital-match.com/posts/4-json-migration.html)
 
+### composable folds in python
+- [gist](https://gist.github.com/sarkologist/a4903853748f3c7948e0df4a48b3af46)
+- in the fashion of: [blog post by Gabriel Gonzalez](http://www.haskellforall.com/2013/08/composable-streaming-folds.html)
+
 ### streaming closest distances
 This reads csv lines and streams out the closest distances on a trajectory encountered so far to a given point.
 
