@@ -5,6 +5,9 @@
 - [gist](https://gist.github.com/sarkologist/4206ece148cbbe302ae4f341fcf687a4)
 - [blog post](https://tech-blog.capital-match.com/posts/4-json-migration.html)
 
+### free applicative config parsing of environment variables
+- [gist](https://gist.github.com/sarkologist/5dff67cb05759e438f08605de12db4ba)
+
 ### streaming closest distances
 This reads csv lines and streams out the closest distances on a trajectory encountered so far to a given point.
 
