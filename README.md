@@ -1,5 +1,19 @@
 # portfolio
 
+## Scala
+### Protobuf to BigQuery converter
+converts protobuf schemas and values to Google Bigquery
+[repo](https://github.com/sarkologist/protobuf-to-bigquery)
+
+### Beam InfluxDB writer
+library to enhance Beam pipelines with ability to write metrics to InfluxDB
+[repo](https://github.com/sarkologist/influx-beam)
+
+### Solace ZIO wrapper
+implements the Solace message bus API and request/response with ZIO in order to for concurrency/fault-tolerance
+[repo](https://github.com/sarkologist/solace-zio)
+
+
 ## Haskell
 ### foci: composable bundles of traversals
 - [gist](https://gist.github.com/sarkologist/4206ece148cbbe302ae4f341fcf687a4)
