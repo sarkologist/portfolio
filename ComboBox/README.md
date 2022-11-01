@@ -4,7 +4,7 @@ The preexisting library code for this was a mess of copy-and-paste methods cater
 
 ### examples
 
-```
+```jsp
 <td class="caption">Order Factor Type</td>
 <td>
   <select name="FACT_TYPE">
@@ -25,7 +25,7 @@ The preexisting library code for this was a mess of copy-and-paste methods cater
 </td>
 ```
 
-```
+```jsp
 <td class="caption">Store</td>
 <td>
  <select name="STORE" style="width:100%">
