@@ -15,6 +15,18 @@ implements the Solace message bus API and request/response with ZIO in order to 
 
 
 ## Haskell
+### WIP: composable "lazy" parse-transforms
+composable like parser combinators, but
+- "lazy" in the sense of not parsing more structure than necessary
+  - e.g. markdown: don't parse the italic inside the header if you are only interested in the raw text inside, but otherwise does if you need to transform it
+- bidirectional: not only parse but render
+- fusion: does all parse-transform-render in one pass!
+- optics-based: everything is a traversal, so it is compatible with most `lens` combinators
+
+see examples here: https://github.com/sarkologist/text-transforms/blob/master/tests/MarkdownLazyTest.hs
+
+code is here: https://github.com/sarkologist/text-transforms/blob/master/src/LazyParseTransforms.hs
+
 ### foci: composable bundles of traversals
 - [gist](https://gist.github.com/sarkologist/4206ece148cbbe302ae4f341fcf687a4)
 - [blog post](https://tech-blog.capital-match.com/posts/4-json-migration.html)
