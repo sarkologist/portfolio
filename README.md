@@ -2,8 +2,34 @@
 
 ## Scala
 ### Protobuf to BigQuery converter
-converts protobuf schemas and values to Google Bigquery
+converts protobuf schemas and values to Google Bigquery:
 [repo](https://github.com/sarkologist/protobuf-to-bigquery)
+- ensures unabiguous converted bigquery `TableRow`s (notorious protobuf issue)
+
+#### [defined using generic folds](https://github.com/sarkologist/protobuf-to-bigquery/blob/2d13140f9549c29dd1f58a1f2dd21f6ac7af3591/src/main/scala/util/Protobuf.scala#L47)
+- fuses multiple transformations on `repeated` values
+```scala
+  /**
+  - recursively traverse `Message`, producing `A`
+  - Yoneda is for efficient `.map`-ing.
+    it composes mapped functions without applying until `Yoneda.run` is called
+  - note that this is a *paramorphism* instead of just a *catamorphism*, i.e.
+    each recursive step keeps the `Message` value at that level.
+    this is helpful e.g. to tell at runtime if the `Message` is a leaf
+   */
+  def foldMessage[A](
+      recurse: Seq[(Yoneda[Repeated, (A, Message)], FieldDescriptor)] => A,
+      base: (AnyRef, FieldDescriptor) => A)(message: Message): A = {
+ ```
+#### [extensively property tested](https://github.com/sarkologist/protobuf-to-bigquery/blob/main/src/test/scala/utils/ProtobufToBigquerySpec.scala) with ScalaCheck
+- generate arbitary protobuf values to test for conversion
+- [check that converted value is compatible converted schema](https://github.com/sarkologist/protobuf-to-bigquery/blob/2d13140f9549c29dd1f58a1f2dd21f6ac7af3591/src/test/scala/utils/ProtobufToBigquerySpec.scala#L68)
+  - by generating from a generated bigquery `TableRow`, paths to traverse its structure
+  - then using that same path to attempt to walk the corresponding `TableSchema`
+- [check that distinct protobuf `Message` produce distinct bigquery `TableRow`](https://github.com/sarkologist/protobuf-to-bigquery/blob/2d13140f9549c29dd1f58a1f2dd21f6ac7af3591/src/test/scala/utils/ProtobufToBigquerySpec.scala#L186)
+  - generate paths from two generated `Message`s
+  - walk the converted `TableRow`s using those paths
+  - we should expect different values
 
 ### Beam InfluxDB writer
 library to enhance Beam pipelines with ability to write metrics to InfluxDB
