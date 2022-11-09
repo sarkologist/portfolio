@@ -2,6 +2,15 @@
 
 ## Scala
 ### Protobuf to BigQuery converter
+```scala
+def makeTableSchema(descriptor: Descriptor): TableSchema
+
+def makeTableRow(msg: Message,
+                 customRow: (FieldDescriptor,
+                   Yoneda[Repeated, Any]) => Yoneda[Repeated, Any]
+                 = { case (_, x) => x })
+  : TableRow
+```
 converts protobuf schemas and values to Google Bigquery:
 [repo](https://github.com/sarkologist/protobuf-to-bigquery)
 - ensures unabiguous converted bigquery `TableRow`s (notorious protobuf issue)
