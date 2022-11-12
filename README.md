@@ -65,12 +65,15 @@ code is here: https://github.com/sarkologist/text-transforms/blob/master/src/Laz
 ### foci: composable bundles of traversals
 - [gist](https://gist.github.com/sarkologist/4206ece148cbbe302ae4f341fcf687a4)
 - [blog post](https://tech-blog.capital-match.com/posts/4-json-migration.html)
+- works with the `lens` library
 
-### free applicative config parsing of environment variables
+### **free applicative** config parsing of environment variables
 - [gist](https://gist.github.com/sarkologist/5dff67cb05759e438f08605de12db4ba)
+- like `optparse-applicative` but for environment variables
 
 ### streaming closest distances
-This reads csv lines and streams out the closest distances on a trajectory encountered so far to a given point.
+- reads csv lines and streams out the closest distances on a trajectory encountered so far to a given point
+- uses `pipes` library for streaming
 
 ### item counter
 This script parses a csv-esque file for a list of items, then counts the items, then prints out the item counts in descending order.
