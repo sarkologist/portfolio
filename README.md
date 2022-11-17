@@ -58,9 +58,9 @@ composable like parser combinators, but
 - fusion: does all parse-transform-render in one pass! like with a hylomorphism!
 - optics-based: everything is a traversal, so it is compatible with most `lens` combinators
 
-see examples here: https://github.com/sarkologist/text-transforms/blob/master/tests/MarkdownLazyTest.hs
+see examples here: https://github.com/sarkologist/text-transforms/blob/master/tests/TextyTest.hs
 
-code is here: https://github.com/sarkologist/text-transforms/blob/master/src/LazyParseTransforms.hs
+code is here: https://github.com/sarkologist/text-transforms/blob/master/src/Texty.hs
 
 ### foci: composable bundles of traversals
 - [gist](https://gist.github.com/sarkologist/4206ece148cbbe302ae4f341fcf687a4)
