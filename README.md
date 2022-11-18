@@ -58,9 +58,10 @@ composable like parser combinators, but
 - fusion: does all parse-transform-render in one pass! like with a hylomorphism!
 - optics-based: everything is a traversal, so it is compatible with most `lens` combinators
 
-see examples here: https://github.com/sarkologist/text-transforms/blob/master/tests/TextyTest.hs
-
-code is here: https://github.com/sarkologist/text-transforms/blob/master/src/Texty.hs
+blog post explaining what it does: https://sarkologist.github.io/blog/posts/2022-11-17-texty-composable-partial-parse-transform-render.html
+- another post explaining how it works is upcoming!
+- see test examples here: https://github.com/sarkologist/text-transforms/blob/master/tests/TextyTest.hs
+- code is here: https://github.com/sarkologist/text-transforms/blob/master/src/Texty.hs
 
 ### foci: composable bundles of traversals
 - [gist](https://gist.github.com/sarkologist/4206ece148cbbe302ae4f341fcf687a4)
