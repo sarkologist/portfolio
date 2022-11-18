@@ -1,7 +1,7 @@
 # portfolio
 
 ## Haskell
-### composable partial parse-transforms
+### texty: a library for composable partial fused parse-transform-rendering
 ![](https://media.giphy.com/media/B5KgFe6s0rGUjSkMtL/giphy.gif)
 
 Do you sometimes feel you have added too many bullet points, and that each top level bullet should be its own heading, with child bullets a new section under that heading? And of course they should be *subheadings* of the heading all the bullets were originally a section of.
