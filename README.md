@@ -1,5 +1,55 @@
 # portfolio
 
+## Haskell
+### composable partial parse-transforms
+![](https://media.giphy.com/media/B5KgFe6s0rGUjSkMtL/giphy.gif)
+
+Do you sometimes feel you have added too many bullet points, and that each top level bullet should be its own heading, with child bullets a new section under that heading? And of course they should be *subheadings* of the heading all the bullets were originally a section of.
+
+Here's the code which does the transformation of the markdown:
+```haskell
+unindentBulletIntoSubheader :: Text -> Text
+unindentBulletIntoSubheader = execState $
+  zoom (text . many' headerTitleContent . _1 . _HeaderTitleContent) $ do
+    (headerLevel, _, _) <- get
+    zoom (_3 . text . many' (bullet <%> (header headerLevel)) . _1) $ do
+       let f (Left (Bullet bulletLevel content)) =
+             if bulletLevel==0
+             then Right (Header (headerLevel+1) content)
+             else Left  (Bullet (bulletLevel-1) content)
+           f (Right x) = Right x
+       modify f
+```
+
+#### composable like parser combinators, but
+- "partial" in the sense of not parsing more structure than necessary, contra a full parse
+  - e.g. markdown: don't parse the italic inside the header if you are only interested in the raw text inside, but otherwise does if you need to transform it
+- bidirectional: not only parse but render
+- fusion: does all parse-transform-render in one pass! like with a hylomorphism!
+- optics-based: everything is a traversal, so it is compatible with most `lens` combinators
+
+#### exposition
+- blog post explaining what it does: https://sarkologist.github.io/blog/posts/2022-11-17-texty-composable-partial-parse-transform-render.html
+- blog post explaining how it works: https://sarkologist.github.io/blog/posts/2022-11-18-texty-how-it-works.html
+- see test examples here: https://github.com/sarkologist/text-transforms/blob/master/tests/TextyTest.hs
+- code is here: https://github.com/sarkologist/text-transforms/blob/master/src/Texty.hs
+
+### foci: composable bundles of traversals
+- [gist](https://gist.github.com/sarkologist/4206ece148cbbe302ae4f341fcf687a4)
+- [blog post](https://tech-blog.capital-match.com/posts/4-json-migration.html)
+- works with the `lens` library
+
+### **free applicative** config parsing of environment variables
+- [gist](https://gist.github.com/sarkologist/5dff67cb05759e438f08605de12db4ba)
+- like `optparse-applicative` but for environment variables
+
+### streaming closest distances
+- reads csv lines and streams out the closest distances on a trajectory encountered so far to a given point
+- uses `pipes` library for streaming
+
+### item counter
+This script parses a csv-esque file for a list of items, then counts the items, then prints out the item counts in descending order.
+
 ## Scala
 ### Protobuf to BigQuery converter
 ```scala
@@ -47,37 +97,6 @@ library to enhance Beam pipelines with ability to write metrics to InfluxDB
 ### Solace ZIO wrapper
 implements the Solace message bus API and request/response with ZIO in order to for concurrency/fault-tolerance
 [repo](https://github.com/sarkologist/solace-zio)
-
-
-## Haskell
-### WIP: composable partial parse-transforms
-composable like parser combinators, but
-- "partial" in the sense of not parsing more structure than necessary, contra a full parse
-  - e.g. markdown: don't parse the italic inside the header if you are only interested in the raw text inside, but otherwise does if you need to transform it
-- bidirectional: not only parse but render
-- fusion: does all parse-transform-render in one pass! like with a hylomorphism!
-- optics-based: everything is a traversal, so it is compatible with most `lens` combinators
-
-blog post explaining what it does: https://sarkologist.github.io/blog/posts/2022-11-17-texty-composable-partial-parse-transform-render.html
-- another post explaining how it works is upcoming!
-- see test examples here: https://github.com/sarkologist/text-transforms/blob/master/tests/TextyTest.hs
-- code is here: https://github.com/sarkologist/text-transforms/blob/master/src/Texty.hs
-
-### foci: composable bundles of traversals
-- [gist](https://gist.github.com/sarkologist/4206ece148cbbe302ae4f341fcf687a4)
-- [blog post](https://tech-blog.capital-match.com/posts/4-json-migration.html)
-- works with the `lens` library
-
-### **free applicative** config parsing of environment variables
-- [gist](https://gist.github.com/sarkologist/5dff67cb05759e438f08605de12db4ba)
-- like `optparse-applicative` but for environment variables
-
-### streaming closest distances
-- reads csv lines and streams out the closest distances on a trajectory encountered so far to a given point
-- uses `pipes` library for streaming
-
-### item counter
-This script parses a csv-esque file for a list of items, then counts the items, then prints out the item counts in descending order.
 
 ## python
 ### composable folds in python
