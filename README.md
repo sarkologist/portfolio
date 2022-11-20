@@ -1,4 +1,6 @@
 # portfolio
+## blog
+technical coding blog at https://sarkologist.github.io/blog/
 
 ## Haskell
 ### texty: a library for composable partial fused parse-transform-rendering
