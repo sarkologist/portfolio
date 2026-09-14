@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="490" viewBox="0 0 1000 490" role="img">
+<title>Rate against the visible company, then follow the selected file to new company</title>
+<desc>Two schematic grids ordered from lower to higher, row by row. Amber A is selected; grey cards are its comparison company. Promote means better than this company. With Follow selection on, A stays selected and the viewport follows it among new files.</desc>
+<style>text{font-family:"Trebuchet MS",sans-serif;fill:#303a3d;font-size:20px}.title{font-size:28px;font-weight:bold}.small{font-size:17px}.label{font-size:22px;font-weight:bold}.ink{fill:none;stroke:#485456;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#485456" stroke-width="1.5"/></marker></defs>
+<rect width="1000" height="490" fill="#fffdf6"/>
+<text x="40" y="46" class="title" text-anchor="start">The basic loop: judge, then follow</text>
+<text x="40" y="81" class="small" text-anchor="start">A = selected file · Grey files = its visible comparison “company”</text>
+<text x="65" y="132" class="label" text-anchor="start">1. Judge against this company</text>
+<text x="595" y="132" class="label" text-anchor="start">2. Follow selection: ON</text>
+<path class="ink" d="M88 165 L362 164 L363 354 L87 353 Z"/><path d="M105 182 L170 181 L172 246 L104 248 Z" fill="#edf0ed" stroke="#485456" stroke-width="1.6"/><text x="138" y="224" class="label" text-anchor="middle">B</text>
+<path d="M192 182 L257 181 L259 246 L191 248 Z" fill="#edf0ed" stroke="#485456" stroke-width="1.6"/><text x="225" y="224" class="label" text-anchor="middle">C</text>
+<path d="M279 182 L344 181 L346 246 L278 248 Z" fill="#edf0ed" stroke="#485456" stroke-width="1.6"/><text x="312" y="224" class="label" text-anchor="middle">D</text>
+<path d="M105 268 L170 267 L172 332 L104 334 Z" fill="#edf0ed" stroke="#485456" stroke-width="1.6"/><text x="138" y="310" class="label" text-anchor="middle">E</text>
+<path d="M192 268 L257 267 L259 332 L191 334 Z" fill="#f5d697" stroke="#485456" stroke-width="3"/><text x="225" y="310" class="label" text-anchor="middle">A</text>
+<path d="M279 268 L344 267 L346 332 L278 334 Z" fill="#edf0ed" stroke="#485456" stroke-width="1.6"/><text x="312" y="310" class="label" text-anchor="middle">F</text>
+<path class="ink" d="M608 165 L882 164 L883 354 L607 353 Z"/><path d="M625 182 L690 181 L692 246 L624 248 Z" fill="#edf0ed" stroke="#485456" stroke-width="1.6"/><text x="658" y="224" class="label" text-anchor="middle">G</text>
+<path d="M712 182 L777 181 L779 246 L711 248 Z" fill="#f5d697" stroke="#485456" stroke-width="3"/><text x="745" y="224" class="label" text-anchor="middle">A</text>
+<path d="M799 182 L864 181 L866 246 L798 248 Z" fill="#edf0ed" stroke="#485456" stroke-width="1.6"/><text x="832" y="224" class="label" text-anchor="middle">H</text>
+<path d="M625 268 L690 267 L692 332 L624 334 Z" fill="#edf0ed" stroke="#485456" stroke-width="1.6"/><text x="658" y="310" class="label" text-anchor="middle">I</text>
+<path d="M712 268 L777 267 L779 332 L711 334 Z" fill="#edf0ed" stroke="#485456" stroke-width="1.6"/><text x="745" y="310" class="label" text-anchor="middle">J</text>
+<path d="M799 268 L864 267 L866 332 L798 334 Z" fill="#edf0ed" stroke="#485456" stroke-width="1.6"/><text x="832" y="310" class="label" text-anchor="middle">K</text>
+<text x="225" y="384" class="small" text-anchor="middle">Rate grid: lower → higher, row by row</text>
+<text x="745" y="384" class="small" text-anchor="middle">Same file A, new company</text>
+<path class="ink" d="M390 254 Q492 246 582 254" marker-end="url(#arrow)"/><text x="488" y="219" class="label" text-anchor="middle">Promote</text>
+<text x="488" y="290" class="small" text-anchor="middle">“Better than these”</text>
+<text x="40" y="435" class="small" text-anchor="start">Promote / demote = a relative judgment, not a fixed score increment.</text>
+<text x="40" y="465" class="small" text-anchor="start">Follow keeps A selected and scrolls with it, ready for the next comparison.</text>
+</svg>

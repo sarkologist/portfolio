@@ -2,6 +2,12 @@
 ## blog
 technical coding blog at https://sarkologist.github.io/blog/
 
+## Case studies
+### nrank: making grouped ratings preserve prior judgments
+An agent-built personal media-ranking browser. How I identified information loss and joining-time bias, directed two-way evidence updates, and refined the review workflow.
+
+[Read the case study](case-studies/nrank/README.md) — includes diagrams and a clear account of my contribution and the agents' work.
+
 ## Haskell
 ### texty: a library for composable partial fused parse-transform-rendering
 ![](https://media.giphy.com/media/B5KgFe6s0rGUjSkMtL/giphy.gif)
