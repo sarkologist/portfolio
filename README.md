@@ -3,6 +3,11 @@
 technical coding blog at https://sarkologist.github.io/blog/
 
 ## Case studies
+### Scheduling: using agents to find a counterexample
+How I framed a small scheduling investigation, proposed adversarial agent search, and directed a fixed comparison. At the same deliberately weakened model setting, direct scheduling passed 63/100 fresh synthetic cases; interpretation plus finite search passed 100/100. Agents implemented the experiment; the result is scoped to explicit synthetic requests.
+
+[Read the case study](case-studies/scheduling/README.md) · [Inspect the source and recorded evidence](https://github.com/sarkologist/scheduling-llm)
+
 ### nrank: making grouped ratings preserve prior judgments
 An agent-built personal media-ranking browser. How I identified information loss and joining-time bias, directed two-way evidence updates, and refined the review workflow.
 
