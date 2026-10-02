@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="676" viewBox="0 0 720 676" role="img" aria-labelledby="title desc">
+<title id="title">One-hop retrieval restores a linked approval condition</title><desc id="desc">Before the fix, both documents load but only the renewal rule reaches model context; the linked approval condition is absent, with no context-budget exclusion. After following the direct local link for one hop, both passages reach context. This demonstrates evidence coverage, not generated-answer quality.</desc>
+<style>text{font-family:"Trebuchet MS",Arial,sans-serif;fill:#303a3d;font-size:26px}.title{font-size:30px;font-weight:700}.label{font-weight:700}.small{font-size:25px}.ink{fill:none;stroke:#485456;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#485456" stroke-width="1.5"/></marker></defs>
+<rect width="720" height="676" fill="#fffdf6"/>
+<text x="24" y="44" class="title" text-anchor="start">Recover the linked condition</text>
+<text x="24" y="91" class="label" text-anchor="start">BEFORE</text>
+<text x="432" y="91" class="label" text-anchor="start">Model context</text>
+<rect x="24" y="112" width="272" height="82" rx="8" fill="#f2f1e9" stroke="#a6adab" stroke-width="1.5"/>
+<text x="42" y="147" class="label" text-anchor="start">Renewal rule</text>
+<text x="42" y="179" class="small" text-anchor="start">See conditions.md</text>
+<rect x="24" y="235" width="272" height="68" rx="8" fill="#f5e3c8" stroke="#a6adab" stroke-width="1.5"/>
+<text x="42" y="277" class="label" text-anchor="start">Approval required</text>
+<path class="ink" d="M160 195 V228" marker-end="url(#arrow)"/>
+<text x="176" y="222" class="small" text-anchor="start">link</text>
+<rect x="432" y="112" width="264" height="191" rx="8" fill="#f2f1e9" stroke="#a6adab" stroke-width="1.5"/>
+<text x="450" y="151" class="label" text-anchor="start">Renewal rule</text>
+<text x="450" y="218" class="label" text-anchor="start">Approval absent</text>
+<text x="450" y="259" class="small" text-anchor="start">No budget loss</text>
+<path class="ink" d="M302 153 H423" marker-end="url(#arrow)"/>
+<path class="ink" d="M302 269 H402" stroke-dasharray="6 6"/><path class="ink" d="M393 260 L411 278 M411 260 L393 278"/>
+<text x="24" y="353" class="label" text-anchor="start">AFTER   Follow one local link</text>
+<text x="432" y="353" class="label" text-anchor="start">Model context</text>
+<rect x="24" y="374" width="272" height="82" rx="8" fill="#f2f1e9" stroke="#a6adab" stroke-width="1.5"/>
+<text x="42" y="409" class="label" text-anchor="start">Renewal rule</text>
+<text x="42" y="441" class="small" text-anchor="start">See conditions.md</text>
+<rect x="24" y="497" width="272" height="68" rx="8" fill="#e4eee8" stroke="#a6adab" stroke-width="1.5"/>
+<text x="42" y="539" class="label" text-anchor="start">Approval required</text>
+<path class="ink" d="M160 457 V490" marker-end="url(#arrow)"/>
+<text x="176" y="484" class="small" text-anchor="start">link</text>
+<rect x="432" y="374" width="264" height="191" rx="8" fill="#e4eee8" stroke="#a6adab" stroke-width="1.5"/>
+<text x="450" y="413" class="label" text-anchor="start">Renewal rule</text>
+<text x="450" y="509" class="label" text-anchor="start">Approval required</text>
+<path class="ink" d="M302 415 H423" marker-end="url(#arrow)"/>
+<path class="ink" d="M302 531 H423" marker-end="url(#arrow)"/>
+<text x="24" y="614" class="label" text-anchor="start">Evidence coverage repaired.</text>
+<text x="24" y="648" class="small" text-anchor="start">Generated-answer quality was not tested here.</text>
+</svg>

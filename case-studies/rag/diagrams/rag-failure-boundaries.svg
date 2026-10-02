@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="460" viewBox="0 0 720 460" role="img" aria-labelledby="title desc">
+<title id="title">Locate a RAG failure at the evidence boundary</title><desc id="desc">Schematic pipeline from documents through retrieval and context to the answer. If needed evidence is absent from context, investigate evidence coverage. If both conflicting sources are present but the answer omits the conflict, investigate generation.</desc>
+<style>text{font-family:"Trebuchet MS",Arial,sans-serif;fill:#303a3d;font-size:26px}.title{font-size:30px;font-weight:700}.label{font-weight:700}.small{font-size:25px}.ink{fill:none;stroke:#485456;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#485456" stroke-width="1.5"/></marker></defs>
+<rect width="720" height="460" fill="#fffdf6"/>
+<text x="24" y="44" class="title" text-anchor="start">Find the first broken boundary</text>
+<rect x="24" y="84" width="144" height="74" rx="8" fill="#f2f1e9" stroke="#a6adab" stroke-width="1.5"/>
+<text x="96" y="129" class="label" text-anchor="middle">Documents</text>
+<rect x="200" y="84" width="144" height="74" rx="8" fill="#f2f1e9" stroke="#a6adab" stroke-width="1.5"/>
+<text x="272" y="129" class="label" text-anchor="middle">Retrieve</text>
+<rect x="376" y="84" width="144" height="74" rx="8" fill="#f2f1e9" stroke="#a6adab" stroke-width="1.5"/>
+<text x="448" y="129" class="label" text-anchor="middle">Context</text>
+<rect x="552" y="84" width="144" height="74" rx="8" fill="#f2f1e9" stroke="#a6adab" stroke-width="1.5"/>
+<text x="624" y="129" class="label" text-anchor="middle">Answer</text>
+<path class="ink" d="M172 121 H193" marker-end="url(#arrow)"/>
+<path class="ink" d="M348 121 H369" marker-end="url(#arrow)"/>
+<path class="ink" d="M524 121 H545" marker-end="url(#arrow)"/>
+<text x="24" y="199" class="label" text-anchor="start">Inspect the exact model context</text>
+<rect x="24" y="224" width="320" height="166" rx="8" fill="#f5e3c8" stroke="#a6adab" stroke-width="1.5"/>
+<rect x="376" y="224" width="320" height="166" rx="8" fill="#e4eee8" stroke="#a6adab" stroke-width="1.5"/>
+<text x="42" y="262" class="label" text-anchor="start">Evidence missing</text>
+<text x="42" y="306" class="" text-anchor="start">Approval rule absent</text>
+<text x="42" y="353" class="label" text-anchor="start">Trace evidence loss</text>
+<text x="394" y="262" class="label" text-anchor="start">Evidence present</text>
+<text x="394" y="306" class="" text-anchor="start">9 and 10 both supplied</text>
+<text x="394" y="353" class="label" text-anchor="start">Check the answer</text>
+<text x="24" y="436" class="small" text-anchor="start">Different failures need different responses.</text>
+</svg>

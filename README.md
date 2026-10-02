@@ -3,6 +3,11 @@
 technical coding blog at https://sarkologist.github.io/blog/
 
 ## Case studies
+### Diagnosing retrieval and generation failures in RAG
+A small agent-assisted learning project: recovering a missing linked condition, then testing why correct counting still did not ensure source-conflict disclosure. Includes two runnable examples, focused offline checks and curated recorded answers.
+
+[Read the case study](case-studies/rag/README.md) · [Inspect the code and evidence](case-studies/rag/code/README.md)
+
 ### Scheduling: using agents to find a counterexample
 How I framed a small scheduling investigation, proposed adversarial agent search, and directed a fixed comparison. At the same deliberately weakened model setting, direct scheduling passed 63/100 fresh synthetic cases; interpretation plus finite search passed 100/100. Agents implemented the experiment; the result is scoped to explicit synthetic requests.
 
