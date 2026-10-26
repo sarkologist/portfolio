@@ -1,80 +1,113 @@
-# Diagnosing retrieval and generation failures in RAG
+# RAG, told through the questions
 
-[Inspect the code and run the examples](code/README.md) · [Recorded answers and checks](code/evidence/README.md)
+[Portfolio](../../README.md) · [Code and offline examples](code/README.md) · [Recorded answers and checks](code/evidence/README.md)
 
 ## At a glance
 
-**Project:** a small, agent-assisted document-answering system for a fictional workshop, built to learn retrieval-augmented generation without an orchestration framework or vector database.
+**Question:** when a retrieval-augmented answer goes wrong, which stage owns the failure, and what fixes that stage rather than hiding the failure?
 
-**Question:** when an answer misses a condition or ignores a disagreement, did the system fail to supply the evidence—or did the model fail to use evidence it already had?
+**My contribution:** the questions. I chose to learn on the smallest system I could inspect, asked for failures before explanations, judged which failures were architectural and which were contrivances, proposed the sub-question and contiguity ideas that led to parent-document retrieval, asked for clearer separation between the pipeline stages, ran a find-minimise-classify loop until each stage had a failure, and stated and tested a hypothesis about the counting failure. Agents wrote the code, named the standard techniques and ran every model call.
 
-**Finding:** those failures needed different responses. Following a document link restored a missing condition. In a separate generation experiment, deterministic counting produced the correct number but did not reliably make the model disclose conflicting sources.
+**Result:** parent-document retrieval kept a rule's conflicting notices together, and following one local link restored a condition that shared no words with the question. In a separate generation experiment, a deterministic counting tool fixed the count but did not make the model report a conflicting source; higher reasoning without the tool did, in three of three runs. These are small exploratory comparisons on a synthetic corpus, not a benchmark.
 
-![Missing evidence versus evidence ignored by the answer](diagrams/rag-failure-boundaries.svg)
+**How this is written:** the questions below are quoted as I typed them to the coding agent, in order, from the development session logs. Each is followed by what its answer changed.
 
-*First inspect the evidence supplied to the model: missing evidence and ignored evidence are different failures.*
+I wanted to learn how retrieval-augmented generation works by building the smallest version that could fail in instructive ways: a document-answering system for a fictional workshop, in plain Python, with no framework, no vector database and a lexical search I could read.
 
-## An inspectable document answering system
+An agent built the starter: four Markdown documents, word-overlap retrieval, a character budget for the prompt, and a contract saying answers must cite their claims, keep conditions attached, abstain without support, and report disagreements between sources. The model under test was a cheap, fast one (called Luna below), chosen so that failures would be easy to find. The agents wrote the code and ran every model call. The questions below are mine, quoted as I typed them, typos included.
 
-A workshop member asks about borrowing tools, access requirements or equipment use. The system searches local Markdown, assembles evidence under a character budget, and passes the question and evidence to an LLM. Answers must cite their factual claims, preserve conditions, abstain when support is missing, and report unresolved source disagreements.
+## Failures before explanations
 
-The implementation uses Python's standard library for lexical retrieval, context selection and an adapter to the Codex CLI. Matching passages expand to their full source documents, preserving file and line references. The small synthetic corpus makes the evidence easy to inspect; this is a learning prototype, not a deployed workshop service.
+> adversarilly find a question for which the model gives a wrong answer, don't diagnose the reason why it fails
 
-The useful diagnostic boundary is the exact prompt: **was the necessary evidence present before the model answered?**
+"Don't diagnose" was deliberate: I wanted the failure in front of me before anyone, agent or me, started explaining it. The agent found one with an ordinary question about laser-cutter rules and sander inspection. The handbook has two sander notices, weekly and monthly, which conflict. Retrieval's three passages went to two laser paragraphs and the weekly notice. The monthly one never reached the model, and the answer confidently said "weekly".
 
-## Recovering a missing condition
+## Is that actually wrong?
+
+> well it seems like the example failed by overloading the context selection limit. within the deliberately restricted bounds of this project, it is not obvious to me that this is necessarily "wrong", in the sense of a deficient architecture
+
+The model, given those three passages, answered them faithfully. The system, answering from the handbook, missed a conflict the contract required it to report. Both descriptions are true, and they point at different things to fix.
+
+> well since this is a learning project, and i am aware that increasing top_k would solve this specific issue, but it would be very easy to simply come up with (admittedly contrived) examples to overload even a higher limit, i'm not sure that is what we should do here
+
+A passage limit bounds quantity; the question decides how much evidence is needed. Raising the limit would move the boundary without teaching anything about it. I had another idea, and a doubt about it:
+
+> ah wait. that also gives me an idea. but i'm not sure if we should go beyond the architecture to accommodate it: the example failed by conjuncting more than one question. we could perhaps apply top_k per atomic question instead of per question. the problem i see is that identifying conjuctive questions itself requires model invocation to not be brittle
+
+Split by hand into four sub-questions, the same total passage count recovered both notices. The whole question still missed the monthly notice even at a limit of five, because incidental words such as "member" and "workshop" lifted an unrelated paragraph above it.
+
+## Keep the exception with the rule
+
+> actually another reading is that retrieval should preserve nearby exceptions. i'm thinking we could reuse the scoring to measure similarity of adjacent chunks, and context selection should strive to preserve contiguity of chunks. but i'm also curious as to whether there is a general RAG best practice here
+
+There is: the unit you search need not be the unit you give the model. Search small passages, then supply their enclosing section or document, which the field calls parent-document retrieval.
+
+> how do we know one expansion is enough?
+
+We do not. A fixed radius bounds cost and says nothing about completeness; a structural boundary such as the whole file has a reason behind it, if the file really does group a rule with its exceptions. For four short documents, whole-file expansion was the honest choice, and the prompt now carried both notices. Then:
+
+> does parent document retrieval not belong to the retrieval stage? rag.py retrieve still only gives the first notice
+
+Expansion had been put in context selection, so the retrieval command still showed one notice while the prompt had two. If a stage's output misreports what it did, you can no longer tell which stage failed. So I asked for a clearer separation between the stages: context selection became a module of its own beside retrieval and generation, each inspectable on its own.
+
+## One failure per stage
+
+The pipeline has four stages: loading turns the documents into passages, retrieval ranks the passages against the question, context selection decides which of them fit in the prompt, and generation is the model answering from that prompt.
+
+![Missing evidence versus evidence the answer ignored](diagrams/rag-failure-boundaries.svg)
+
+*Inspect the exact prompt first: evidence that never reached the model and evidence the model failed to use are different failures with different fixes.*
+
+With one failure understood, I wanted a collection of small ones:
+
+> find another failing example, and minimise it, don't diagnose
+>
+> ok this wasn't the kind of failing example i was looking for. but let's classify this and find another one not belonging to this class of failure
+
+The loop ran through one evening and turned up an alias gap, unindexed headings, a prompt one character over budget, and a question ending "Reply exactly Yes/No" that overrode the citation instruction. One I misread. A borrowing rule said renewals were "subject to conditions" and linked to a second file holding the condition, which shared no words with the question and never reached the prompt.
+
+> well this one is due to a cross file dependency. i'm not sure if there is anything to be done here short of stronger document semantics concerning references
+
+The agent pointed out that the link was a Markdown link: the structure was already there, and the pipeline was treating it as text. Retrieval now follows local links for one hop. That repairs this gap and says nothing about dependencies that are not written as links.
 
 ![Following the document link restores the missing condition](diagrams/rag-linked-condition.svg)
 
-*Following the document link restored the approval condition to context; this was an evidence-coverage check, not a generated-answer test.*
+*Following one local link brought the approval condition into the prompt. This checked evidence coverage, not the generated answer.*
 
-### A linked condition never reached the model
+> do we now have at least one failure for each of the RAG stages?
 
-One reduced example used just two documents:
+Not for generation. Every failure so far was evidence that never reached the model, or an instruction conflict; none was the model misusing evidence it had. So the next specimen was built for that.
 
-- A borrowing rule: “Members may renew drill loans subject to general conditions,” with a link to the conditions file.
-- The linked condition: “Written approval from a steward is required.”
+## The model had everything and still left something out
 
-For “Can members renew drill loans?”, the borrowing rule reached the prompt but the approval condition did not. Raising the child-hit limit from 2 to 12 did not help; there were no context-budget exclusions. The linked condition did not share the query vocabulary.
+The agent built a roster of 16 members, of whom exactly 10 met both requirements to operate the laser, and a separate summary saying 9. Both reached the prompt; the contract required the disagreement to be reported with both citations. At low reasoning, Luna answered 10, cited the roster, and said nothing about the 9.
 
-A control made the distinction clear: moving the condition into a second paragraph of the borrowing file caused parent-document expansion to include it. Keeping it in a linked file lost it.
+I had a hypothesis, and I was fairly confident in it:
 
-### Following the link restored the condition
+> hmm it seems to me this is due to the model not doing enough chain of thought reasoning, due to the low reasoning setting, in order to both perform the count AND identify the source disagreement. tool use was disabled right? so it couldn't write a script to perform the calculation. i think if it could have it would have gotten it right. it does seem reasonable to me to provide limited tool use in this case since it involves such counting. alternatively, i'm sure increasing the reasoning level would also solve the problem
 
-Retrieval was extended to follow direct local Markdown links for one hop. The condition then reached the prompt without needing to match the question itself. This repaired an evidence-coverage gap; it did not establish how the model would answer or solve arbitrary cross-document dependencies.
+Half of it held: at high reasoning, three runs out of three counted correctly, disclosed the conflict and cited both sources. To test the other half, I asked for a counting tool at low reasoning:
 
-## Handling conflicting evidence
+> ok do it. keep the tooling as simple as possible (while not making it contrived and non-general) so that luna doesn't get overly confused
 
-### The answer got the count right but missed the conflict
-
-A separate example asked: “How many listed members may operate the laser?”
-
-The roster listed 16 members. Exactly **10** met both requirements: training and a steward's presence. A separate summary said **9**. Both sources reached the prompt, nothing was excluded by budget, and neither source established precedence. The answer contract required reporting the disagreement and citing both.
-
-At low reasoning effort, one observed answer reported the correct roster count of 10 and cited the roster—but omitted the summary's conflicting 9.
-
-This was not missing retrieval evidence or simply bad arithmetic. The answer failed to acknowledge evidence already supplied. A correct count and a valid citation were insufficient to satisfy the contract.
-
-The larger failure example was reduced to 16 rows, the smallest version tested, before repeated comparisons.
-
-### Testing higher reasoning effort and deterministic counting
-
-The comparisons used `gpt-6-luna`, the same question and the same 16-row evidence. Assessment kept two outcomes separate: reporting the correct roster count, and explicitly disclosing the disagreement with both citations.
+One tool counted rows in the table already in the prompt, under column filters the model chose: no code execution, at most two calls. Instructed to use it, Luna chose the right filters every time.
 
 ![Correct counting does not guarantee conflict disclosure](diagrams/rag-counting-versus-conflict.svg)
 
-*The low-effort rows compare configurations from the same alternating-call batch. These are selected results; the [supporting experiment record](code/evidence/README.md) retains the full comparisons.*
+*Three completed answers per row; the low-reasoning rows come from the same alternating-call batch. Selected results from one case; the [recorded answers](code/evidence/README.md) keep every comparison.*
 
-High reasoning without tools met both criteria in all three repeats. The counting tool tested a different possibility: offload computation to ordinary code while leaving interpretation and source reconciliation to the model.
+Offloading the arithmetic worked. It did not make the model reconcile its sources. On these few runs they look like different jobs, and my hypothesis had bundled them. The default stayed at high reasoning with no tool, and three runs per condition rank nothing with confidence.
 
-The tool counted rows matching model-selected column filters in the exact supplied evidence. It did not retrieve more documents, choose an authoritative source, or execute model-written code. Initially, merely making it available resulted in no use across three enabled calls; the later comparisons explicitly instructed the model to use it for table counts.
+## What I did and did not do
 
-In all completed enabled calls in the final low- and medium-effort batches, the model selected the right filters and the tool returned 10. Yet only one of three answers per batch reported the conflicting summary. **Offloading the calculation worked; reliable conflict disclosure did not follow.**
+Mine: learning on the smallest inspectable system, with lexical retrieval so each boundary stayed visible. The weakest model setting. Failures before explanations. The judgment of which failures were architectural and which were contrivances. The sub-question and contiguity ideas, and the questions that led from them to parent-document retrieval. The find-minimise-classify loop and the demand for one failure per stage. The counting hypothesis, its test, and the retraction of half of it.
 
-## What the investigation established
+The agents': the starter and every later module; the names and standard forms of parent-document retrieval and link following; the generated and minimised examples; the counting tool's design; every model call and record. I did not write the code or run the experiments myself.
 
-The two examples distinguish three responsibilities: finding the evidence, computing from it, and representing it faithfully in the answer. Success at one boundary cannot stand in for checking the next.
+## Inspect the evidence
 
-The results supported retaining the existing high-reasoning, tools-off default for this case—not adding a counting tool by default or declaring the conflict problem solved. They are small exploratory comparisons on one selected synthetic failure, collected in separate batches, not a held-out benchmark or a general ranking of reasoning settings. Enabling the tool also changed the instruction. High reasoning with the tool was not tested.
+- [Code companion](code/README.md): the linked-condition and conflicting-count examples, runnable offline with no credentials or model calls, including the pre-fix retriever that reproduces the omission.
+- [Recorded answers and checks](code/evidence/README.md): every recorded attempt in the counting experiment, with the manual assessments the scores are computed from, including comparisons not shown above.
+- [Retrieval](code/retrieval.py), [context selection](code/context_selection.py), [counting tool](code/count_tool.py) and [generation](code/generation.py).
 
-The project stopped at a useful learning boundary: a repaired retrieval omission, a concrete generation failure, and a comparison showing both the value and the limits of deterministic computation.
+The companion contains only those two examples. The sander-notice case, the other specimens and the private development history are not included.
