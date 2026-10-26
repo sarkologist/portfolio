@@ -8,8 +8,8 @@ A small agent-assisted learning project: recovering a missing linked condition, 
 
 [Read the case study](case-studies/rag/README.md) · [Inspect the code and evidence](case-studies/rag/code/README.md)
 
-### Scheduling: using agents to find a counterexample
-How I framed a small scheduling investigation, proposed adversarial agent search, and directed a fixed comparison. At the same deliberately weakened model setting, direct scheduling passed 63/100 fresh synthetic cases; interpretation plus finite search passed 100/100. Agents implemented the experiment; the result is scoped to explicit synthetic requests.
+### Scheduling, told through the questions
+A small LLM scheduling investigation told through the questions I asked the coding agent, quoted in order: what the model is responsible for, where it breaks, whether the alternative survives the same case, and whether the comparison is fair. At the same deliberately weakened model setting, direct scheduling passed 63/100 fresh synthetic cases; interpretation plus finite search passed 100/100. Agents implemented the experiment; the result is scoped to explicit synthetic requests.
 
 [Read the case study](case-studies/scheduling/README.md) · [Inspect the source and recorded evidence](https://github.com/sarkologist/scheduling-llm)
 
